@@ -8,13 +8,14 @@ class splashPage extends StatefulWidget {
 }
 
 class splashState extends State<splashPage> {
+
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 3700), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeView())
+        MaterialPageRoute(builder: (context) => HomeView()),
       );
     });
   }
@@ -23,11 +24,13 @@ class splashState extends State<splashPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: RiveAnimation.asset("assets/splash_fly.riv",
-        alignment: Alignment.center,
-        fit: BoxFit.cover,
-        stateMachines: ['animation'],
-        artboard: 'splash')
+        body: RiveAnimation.asset(
+          "assets/splash_fly.riv",
+          alignment: Alignment.center,
+          fit: BoxFit.cover,
+          stateMachines: ['animation'],
+          artboard: 'splash',
+        ),
       ),
     );
   }

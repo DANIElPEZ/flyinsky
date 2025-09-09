@@ -12,4 +12,4 @@ build.gradle.kts
 gradlew
 *.bat
 settings.gradle.kts
-weatherfly_android.iml
+*.iml

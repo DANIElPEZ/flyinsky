@@ -5,6 +5,8 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flyinsky/color/colors.dart';
 import 'package:flyinsky/components/appBar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'dart:math' as math;
 
 class Pdfchartview extends StatefulWidget {
   Pdfchartview({required this.pdf_file});
@@ -18,11 +20,59 @@ class Pdfchartview extends StatefulWidget {
 class StatePdfchartview extends State<Pdfchartview> {
   String? localPath;
   bool loading = true;
+  bool isAdLoaded=false;
+  RewardedAd? rewardedAd;
+
+  void loadRewardedAd() {
+    RewardedAd.load(
+        adUnitId: 'ca-app-pub-3940256099942544/5224354917',
+        request: const AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+            onAdLoaded: (ad) async{
+              ad.fullScreenContentCallback=FullScreenContentCallback(
+                  onAdDismissedFullScreenContent: (ad){
+                    ad.dispose();
+                    rewardedAd=null;
+                    isAdLoaded=false;
+                    loadRewardedAd();
+                  },
+                  onAdFailedToShowFullScreenContent: (ad, e){
+                    ad.dispose();
+                    loadRewardedAd();
+                  }
+              );
+              setState(() {
+                rewardedAd=ad;
+                isAdLoaded=true;
+              });
+              final show= math.Random().nextBool();
+              print(show);
+              if(isAdLoaded && show){
+                rewardedAd?.show(onUserEarnedReward: (_, reward){
+                  print(reward.amount);
+                });
+              }else{
+                loadRewardedAd();
+              }
+            },
+            onAdFailedToLoad: (e){
+              print('Failed to load a rewarded ad: $e');
+              isAdLoaded=false;
+            })
+    );
+  }
 
   @override
   void initState() {
     super.initState();
+    loadRewardedAd();
     loadPDF();
+  }
+
+  @override
+  void dispose() {
+    rewardedAd?.dispose();
+    super.dispose();
   }
 
   Future<void> loadPDF() async {
