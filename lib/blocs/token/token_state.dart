@@ -1,7 +1,7 @@
 class TokenState{
-  TokenState({required this.tokenAccess, this.isExpired});
+  TokenState({required this.tokenAccess,required this.isExpired});
   final String tokenAccess;
-  final bool? isExpired;
+  final bool isExpired;
 
   factory TokenState.initial(){
     return TokenState(tokenAccess: '', isExpired: true);

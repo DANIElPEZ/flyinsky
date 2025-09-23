@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/views/chartsViews/pdfChartView.dart';
 import 'package:flyinsky/blocs/charts/chart_bloc.dart';
 import 'package:flyinsky/blocs/charts/chart_event.dart';

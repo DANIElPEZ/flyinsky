@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/components/appBar.dart';
 import 'package:flyinsky/components/custom_input_text.dart';
 import 'package:flyinsky/components/expansion_panel.dart';
@@ -35,6 +35,12 @@ class _chartsViewState extends State<chartsView> {
                   physics: BouncingScrollPhysics(),
                   child: ExpandedPanel(groupedCharts: state.charts)
                 );
+              }if(state.charts.isEmpty && state.icao.isNotEmpty){
+                return Center(child: Text('AIRPORT IS NOT AVAIABLE', style: GoogleFonts.nunito(
+                    color: colorsPalette['title'],
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                )));
               }else{
                 return Center(child: Text('SEARCH YOUR AIRPORT', style: GoogleFonts.nunito(
                   color: colorsPalette['title'],

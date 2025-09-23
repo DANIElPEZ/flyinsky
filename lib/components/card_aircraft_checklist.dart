@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/views/checklistViews/cheklistProceduresView.dart';
 
 class CardAircraft extends StatelessWidget{

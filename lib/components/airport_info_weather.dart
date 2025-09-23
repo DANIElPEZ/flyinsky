@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 
 class AirportInfo extends StatelessWidget {
   AirportInfo({required this.ICAO, required this.Name, required this.altitude});

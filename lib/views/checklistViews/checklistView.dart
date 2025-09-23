@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/components/appBar.dart';
 import 'package:flyinsky/components/card_aircraft_checklist.dart';
 import 'package:flyinsky/components/custom_input_text.dart';

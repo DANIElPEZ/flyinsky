@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/components/appBar.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,7 +24,7 @@ class StateViewChecklist extends State<ViewChecklist> {
 
   void loadRewardedAd() {
     RewardedAd.load(
-        adUnitId: 'ca-app-pub-3940256099942544/5224354917',
+        adUnitId: 'ca-app-pub-6288821932043902/6759619816',
         request: const AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (ad) async{

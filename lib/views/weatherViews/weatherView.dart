@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flyinsky/blocs/weather/weather_event.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/components/custom_input_text.dart';
 import 'package:flyinsky/components/airport_info_weather.dart';
 import 'package:flyinsky/components/card_metar_weather.dart';

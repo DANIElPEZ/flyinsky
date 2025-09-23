@@ -11,3 +11,8 @@ class loadPdfChart extends chartsEvent{
   final String idChart;
   loadPdfChart(this.idChart);
 }
+
+class updateToken extends chartsEvent{
+  updateToken(this.token);
+  final String token;
+}

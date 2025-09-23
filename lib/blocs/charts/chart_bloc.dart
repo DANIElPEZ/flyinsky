@@ -9,17 +9,20 @@ class chartsBloc extends Bloc<chartsEvent, chartsState>{
   final ChartsRepository chartsrepository;
   late final StreamSubscription tokenSubscription;
   final TokenBloc tokenBloc;
-  String token='';
 
   chartsBloc({required this.tokenBloc, required this.chartsrepository}):super(chartsState.initial()){
-    token=tokenBloc.state.tokenAccess;
+    tokenSubscription = tokenBloc.stream.listen((tokenState) {
+      if (tokenState.tokenAccess.isNotEmpty) {
+        add(updateToken(tokenState.tokenAccess));
+      }
+    });
 
     on<setIcao>((event, emit){
       emit(state.copyWith(icao: event.icao));
     });
     on<loadCharts>((event, emit)async{
       try {
-        final charts = await chartsrepository.getGroupedCharts(token, state.icao);
+        final charts = await chartsrepository.getGroupedCharts(state.token, state.icao);
         emit(state.copyWith(charts: charts));
       }catch(e){
         print(e);
@@ -27,11 +30,14 @@ class chartsBloc extends Bloc<chartsEvent, chartsState>{
     });
     on<loadPdfChart>((event, emit)async{
       try{
-        final url=await chartsrepository.getChart(token, event.idChart);//send from id from clicking ui
+        final url=await chartsrepository.getChart(state.token, event.idChart);//send from id from clicking ui
         emit(state.copyWith(urlChart: url));
       }catch(e){
         print(e);
       }
+    });
+    on<updateToken>((event, emit){
+      emit(state.copyWith(token: event.token));
     });
   }
 

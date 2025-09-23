@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/views/weatherViews/weatherView.dart';
 import 'package:flyinsky/views/checklistViews/checklistView.dart';
 import 'package:flyinsky/views/chartsViews/mainChartView.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:new_version_plus/new_version_plus.dart';
-import 'package:flyinsky/color/colors.dart';
 
 class HomeView extends StatefulWidget {
+  HomeView({required this.indexView});
+  int indexView;
+
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  int indexView = 1;
   late PageController pageController;
 
   Future<void> checkForUpdate(BuildContext context) async {
@@ -64,7 +65,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: indexView);
+    pageController = PageController(initialPage: widget.indexView);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkForUpdate(context);
     });
@@ -78,24 +79,24 @@ class _HomeViewState extends State<HomeView> {
         bottomNavigationBar: NavigationBar(
           animationDuration: Duration(milliseconds: 400),
           backgroundColor: colorsPalette['input'],
-          selectedIndex: indexView,
+          selectedIndex: widget.indexView,
           indicatorColor: Colors.transparent,
           onDestinationSelected: (int index) {
-            setState(() => indexView = index);
+            setState(() => widget.indexView = index);
             pageController.animateToPage(index,
                 duration: Duration(milliseconds: 400),
                 curve: Curves.easeInOut);
           },
           destinations: [
-            NavigationDestination(icon: Icon(indexView==0?Icons.cloud:Icons.cloud_outlined, size: 34, color: indexView==0?colorsPalette['title']:colorsPalette['content']), label: ''),
-            NavigationDestination(icon: Icon(Icons.checklist, size: 34, color: indexView==1?colorsPalette['title']:colorsPalette['content']), label: ''),
-            NavigationDestination(icon: Icon(indexView==2?Icons.map:Icons.map_outlined, size: 34, color: indexView==2?colorsPalette['title']:colorsPalette['content']), label: '')
+            NavigationDestination(icon: Icon( widget.indexView==0?Icons.cloud:Icons.cloud_outlined, size: 34, color: widget.indexView==0?colorsPalette['title']:colorsPalette['content']), label: ''),
+            NavigationDestination(icon: Icon(Icons.checklist, size: 34, color: widget.indexView==1?colorsPalette['title']:colorsPalette['content']), label: ''),
+            NavigationDestination(icon: Icon( widget.indexView==2?Icons.map:Icons.map_outlined, size: 34, color: widget.indexView==2?colorsPalette['title']:colorsPalette['content']), label: '')
           ],
         ),
         body: PageView(
             controller: pageController,
             onPageChanged: (int index) {
-              setState(() => indexView = index);
+              setState(() =>  widget.indexView = index);
             },
             children: [WeatherView(), CheclistView(), Mainchartview()])
       ),

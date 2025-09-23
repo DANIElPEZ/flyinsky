@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/components/compass_weather.dart';
 import 'package:flyinsky/components/card_info_weather.dart';
 import 'package:flyinsky/components/card_clouds_weather.dart';

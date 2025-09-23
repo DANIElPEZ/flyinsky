@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:http/io_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:flyinsky/color/colors.dart';
+import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/components/appBar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -25,7 +25,7 @@ class StatePdfchartview extends State<Pdfchartview> {
 
   void loadRewardedAd() {
     RewardedAd.load(
-        adUnitId: 'ca-app-pub-3940256099942544/5224354917',
+        adUnitId: 'ca-app-pub-6288821932043902/6759619816',
         request: const AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (ad) async{
@@ -62,19 +62,6 @@ class StatePdfchartview extends State<Pdfchartview> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    loadRewardedAd();
-    loadPDF();
-  }
-
-  @override
-  void dispose() {
-    rewardedAd?.dispose();
-    super.dispose();
-  }
-
   Future<void> loadPDF() async {
     try{
       final ioClient = HttpClient()
@@ -96,6 +83,19 @@ class StatePdfchartview extends State<Pdfchartview> {
     }catch(e){
       print(e);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadRewardedAd();
+    loadPDF();
+  }
+
+  @override
+  void dispose() {
+    rewardedAd?.dispose();
+    super.dispose();
   }
 
   @override

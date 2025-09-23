@@ -15,7 +15,7 @@ class splashState extends State<splashPage> {
     Future.delayed(Duration(milliseconds: 3700), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeView()),
+        MaterialPageRoute(builder: (context) => HomeView(indexView: 1)),
       );
     });
   }

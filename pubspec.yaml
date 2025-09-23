@@ -11,11 +11,9 @@ dependencies:
   http: ^1.4.0
   bloc: ^9.0.0
   flutter_bloc: ^9.1.1
-  connectivity_plus: ^6.1.3
   flutter_pdfview: ^1.4.0+1
   flutter_dotenv: ^6.0.0
   sqflite: ^2.4.2
-  url_launcher: ^6.3.2
   rive: ^0.13.20
   google_mobile_ads: ^6.0.0
   new_version_plus: ^0.1.1
