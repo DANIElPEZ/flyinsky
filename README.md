@@ -25,6 +25,6 @@ Fly in Sky is available now on **Google Play Store**.
 </div>
 
 ## 📌 Project Status  
-✅ Published and maintained. Future updates will include more charts, advanced weather visualization, and customization options.  
+✅ Published and maintained. Future updates will include more features.  
 
 ---
