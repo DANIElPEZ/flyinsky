@@ -22,15 +22,13 @@ class splashState extends State<splashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: RiveAnimation.asset(
-          "assets/splash_fly.riv",
-          alignment: Alignment.center,
-          fit: BoxFit.cover,
-          stateMachines: ['animation'],
-          artboard: 'splash',
-        ),
+    return Scaffold(
+      body: RiveAnimation.asset(
+        "assets/splash_fly.riv",
+        alignment: Alignment.center,
+        fit: BoxFit.cover,
+        stateMachines: ['animation'],
+        artboard: 'splash',
       ),
     );
   }

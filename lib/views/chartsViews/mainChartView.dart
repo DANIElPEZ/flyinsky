@@ -21,13 +21,13 @@ class _ChartViewState extends State<Mainchartview> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: BlocBuilder<TokenBloc, TokenState>(
+    return BlocBuilder<TokenBloc, TokenState>(
         builder: (context, state) {
           if (state.tokenAccess.isNotEmpty && !state.isExpired) {
             return chartsView();
           } else {
             return ValidationView();
           }
-        }));
+        });
   }
 }

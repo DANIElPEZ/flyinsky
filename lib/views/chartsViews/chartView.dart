@@ -17,40 +17,38 @@ class chartsView extends StatefulWidget{
 class _chartsViewState extends State<chartsView> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: CustomAppBar(input: InputText(onSubmit: (value){
-          context.read<chartsBloc>().add(setIcao(value));
-          context.read<chartsBloc>().add(loadCharts());
-        })),
-          body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: colorsPalette['light blue'],
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-            child: BlocBuilder<chartsBloc, chartsState>(builder: (context, state){
-              if(state.charts.isNotEmpty){
-                return SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: ExpandedPanel(groupedCharts: state.charts)
-                );
-              }if(state.charts.isEmpty && state.icao.isNotEmpty){
-                return Center(child: Text('AIRPORT IS NOT AVAIABLE', style: GoogleFonts.nunito(
-                    color: colorsPalette['title'],
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                )));
-              }else{
-                return Center(child: Text('SEARCH YOUR AIRPORT', style: GoogleFonts.nunito(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(input: InputText(onSubmit: (value){
+        context.read<chartsBloc>().add(setIcao(value));
+        context.read<chartsBloc>().add(loadCharts());
+      })),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: colorsPalette['light blue'],
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+          child: BlocBuilder<chartsBloc, chartsState>(builder: (context, state){
+            if(state.charts.isNotEmpty){
+              return SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: ExpandedPanel(groupedCharts: state.charts)
+              );
+            }if(state.charts.isEmpty && state.icao.isNotEmpty){
+              return Center(child: Text('AIRPORT IS NOT AVAIABLE', style: GoogleFonts.nunito(
                   color: colorsPalette['title'],
                   fontSize: 20,
                   fontWeight: FontWeight.bold
-                )));
-              }
-            })
-          )
-      ),
+              )));
+            }else{
+              return Center(child: Text('SEARCH YOUR AIRPORT', style: GoogleFonts.nunito(
+                color: colorsPalette['title'],
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              )));
+            }
+          })
+        )
     );
   }
 }

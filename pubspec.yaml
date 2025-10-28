@@ -1,7 +1,7 @@
 name: flyinsky
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.5.0
+version: 1.7.0
 environment:
   sdk: ^3.7.2
 dependencies:
@@ -17,6 +17,7 @@ dependencies:
   rive: ^0.13.20
   google_mobile_ads: ^6.0.0
   new_version_plus: ^0.1.1
+  supabase_flutter: ^2.10.3
 
 dev_dependencies:
   flutter_test:

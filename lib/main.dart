@@ -12,16 +12,22 @@ import 'package:flyinsky/blocs/charts/chart_bloc.dart';
 import 'package:flyinsky/views/splashView.dart';
 import 'package:flyinsky/blocs/checklist/checklist_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  init();
   await MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((
     _,
   ) {
     runApp(Main());
   });
+}
+
+Future<void> init()async{
+  await dotenv.load(fileName: ".env");
+  await Supabase.initialize(url: dotenv.env['SUPABASE_URL']??'', anonKey: dotenv.env['SUPABASE_KEY']??'');
 }
 
 class Main extends StatelessWidget {
@@ -79,6 +85,9 @@ class Main extends StatelessWidget {
           builder: (context) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
+              builder: (context, child){
+                return SafeArea(child: child!);
+              },
               home: splashPage()
             );
           },

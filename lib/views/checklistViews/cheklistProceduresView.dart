@@ -1,9 +1,9 @@
 import 'dart:io';
+import 'package:http/io_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/components/appBar.dart';
-import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -17,60 +17,83 @@ class ViewChecklist extends StatefulWidget {
 }
 
 class StateViewChecklist extends State<ViewChecklist> {
-  String? localPath;
+  String? path_pdf;
   bool loading = true;
   bool isAdLoaded=false;
   RewardedAd? rewardedAd;
+  bool initialAdShown = false;
 
   void loadRewardedAd() {
     RewardedAd.load(
-        adUnitId: 'ca-app-pub-6288821932043902/6759619816',
-        request: const AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(
-            onAdLoaded: (ad) async{
-              ad.fullScreenContentCallback=FullScreenContentCallback(
-                  onAdDismissedFullScreenContent: (ad){
-                    ad.dispose();
-                    rewardedAd=null;
-                    isAdLoaded=false;
-                    loadRewardedAd();
-                  },
-                onAdFailedToShowFullScreenContent: (ad, e){
-                    ad.dispose();
-                    loadRewardedAd();
-                }
-              );
-              setState(() {
-                rewardedAd=ad;
-                isAdLoaded=true;
-              });
-              if(isAdLoaded){
-                rewardedAd?.show(onUserEarnedReward: (_, reward){
-                  print(reward.amount);
-                });
-              }else{
-                loadRewardedAd();
-              }
+      adUnitId: 'ca-app-pub-6288821932043902/6759619816',
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+              rewardedAd = null;
+              isAdLoaded = false;
+              loadRewardedAd();
             },
-            onAdFailedToLoad: (e){
-              print('Failed to load a rewarded ad: $e');
-              isAdLoaded=false;
-            })
+            onAdFailedToShowFullScreenContent: (ad, e) {
+              ad.dispose();
+              loadRewardedAd();
+            },
+          );
+
+          setState(() {
+            rewardedAd = ad;
+            isAdLoaded = true;
+          });
+          if (!loading && !initialAdShown) {
+            showRewardedAd();
+          }
+        },
+        onAdFailedToLoad: (e) {
+          print('Failed to load a rewarded ad: $e');
+          isAdLoaded = false;
+        },
+      ),
     );
   }
 
-  Future<void> loadPDF() async {
-    final byteData = await rootBundle.load(
-      'assets/checklist/${widget.pdf_file}',
-    );
-    final temDir = await getTemporaryDirectory();
-    final file = await File('${temDir.path}/${widget.pdf_file}');
-    await file.writeAsBytes(byteData.buffer.asUint8List(), flush: true);
+  void showRewardedAd() {
+    if (isAdLoaded && rewardedAd != null) {
+      rewardedAd?.show(onUserEarnedReward: (_, reward) {
+        print('Usuario ganó recompensa: ${reward.amount}');
+      });
+      isAdLoaded = false;
+      initialAdShown = true;
+    } else {
+      print("Anuncio no está listo todavía");
+    }
+  }
 
-    setState(() {
-      localPath = file.path;
-      loading = false;
-    });
+  Future<void> loadPDF() async {
+    try{
+      final ioClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+      final client = IOClient(ioClient);
+      final response = await client.get(Uri.parse(widget.pdf_file));
+      if (response.statusCode == 200) {
+        final tempDir = await getTemporaryDirectory();
+        final file = File('${tempDir.path}/chart.pdf');
+        await file.writeAsBytes(response.bodyBytes, flush: true);
+        setState(() {
+          path_pdf = file.path;
+          loading = false;
+        });
+      }else {
+        throw Exception('Error al descargar PDF: ${response.statusCode}');
+      }
+      if (isAdLoaded && !initialAdShown) {
+        showRewardedAd();
+      }
+    }catch(e){
+      print(e);
+    }
   }
 
   @override
@@ -97,7 +120,7 @@ class StateViewChecklist extends State<ViewChecklist> {
         child:
             loading
                 ? Center(child: CircularProgressIndicator())
-                : PDFView(filePath: localPath,
+                : PDFView(filePath: path_pdf,
             swipeHorizontal: true
           ),
       ),

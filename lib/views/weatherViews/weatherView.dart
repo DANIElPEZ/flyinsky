@@ -12,35 +12,33 @@ import 'package:flyinsky/blocs/weather/weather_bloc.dart';
 class WeatherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: CustomAppBar(input: InputText(onSubmit: (value){
-          context.read<WeatherBloc>().add(setIcao(value));
-          context.read<WeatherBloc>().add(loadWeather());
-        })),
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: colorsPalette['light blue'],
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-          child: BlocBuilder<WeatherBloc, WeatherState>(
-            builder: (context, state) {
-              if (state.data!.isNotEmpty)
-                return Column(
-                  children: [
-                    AirportInfo(
-                      ICAO: state.data![0]['icaoId'],
-                      Name: state.data![0]['name'],
-                      altitude: state.data![0]['elev']*3.281.truncate(),
-                    ),
-                    SizedBox(height: 20),
-                    Expanded(child: CardMetar(data: state.data!)),
-                  ],
-                );
-              return loading(context);
-            },
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(input: InputText(onSubmit: (value){
+        context.read<WeatherBloc>().add(setIcao(value));
+        context.read<WeatherBloc>().add(loadWeather());
+      })),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: colorsPalette['light blue'],
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+        child: BlocBuilder<WeatherBloc, WeatherState>(
+          builder: (context, state) {
+            if (state.data!.isNotEmpty)
+              return Column(
+                children: [
+                  AirportInfo(
+                    ICAO: state.data![0]['icaoId'],
+                    Name: state.data![0]['name'],
+                    altitude: state.data![0]['elev']*3.281.truncate(),
+                  ),
+                  SizedBox(height: 20),
+                  Expanded(child: CardMetar(data: state.data!)),
+                ],
+              );
+            return loading(context);
+          },
         ),
       ),
     );

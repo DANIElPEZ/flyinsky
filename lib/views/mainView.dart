@@ -20,17 +20,18 @@ class _HomeViewState extends State<HomeView> {
   Future<void> checkForUpdate(BuildContext context) async {
     final newVersion = NewVersionPlus(androidId: 'com.dnv.flyinsky');
     final status = await newVersion.getVersionStatus();
-    if (//status != null && status.canUpdate ||
-    true) {
+    if (status != null && status.canUpdate) {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder:
-            (contexr) =>
+            (context) =>
             AlertDialog(
+              backgroundColor: colorsPalette['card blue'],
               title: Text(
                 'New version available',
                 style: GoogleFonts.nunito(
-                  fontSize: 15,
+                  fontSize: 24,
                   fontWeight: FontWeight.w600,
                   color: colorsPalette['title'],
                 ),
@@ -53,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    backgroundColor: colorsPalette['dark blue'],
+                    backgroundColor: colorsPalette['input'],
                   ),
                 ),
               ],
@@ -73,33 +74,31 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        bottomNavigationBar: NavigationBar(
-          animationDuration: Duration(milliseconds: 400),
-          backgroundColor: colorsPalette['input'],
-          selectedIndex: widget.indexView,
-          indicatorColor: Colors.transparent,
-          onDestinationSelected: (int index) {
-            setState(() => widget.indexView = index);
-            pageController.animateToPage(index,
-                duration: Duration(milliseconds: 400),
-                curve: Curves.easeInOut);
-          },
-          destinations: [
-            NavigationDestination(icon: Icon( widget.indexView==0?Icons.cloud:Icons.cloud_outlined, size: 34, color: widget.indexView==0?colorsPalette['title']:colorsPalette['content']), label: ''),
-            NavigationDestination(icon: Icon(Icons.checklist, size: 34, color: widget.indexView==1?colorsPalette['title']:colorsPalette['content']), label: ''),
-            NavigationDestination(icon: Icon( widget.indexView==2?Icons.map:Icons.map_outlined, size: 34, color: widget.indexView==2?colorsPalette['title']:colorsPalette['content']), label: '')
-          ],
-        ),
-        body: PageView(
-            controller: pageController,
-            onPageChanged: (int index) {
-              setState(() =>  widget.indexView = index);
-            },
-            children: [WeatherView(), CheclistView(), Mainchartview()])
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      bottomNavigationBar: NavigationBar(
+        animationDuration: Duration(milliseconds: 400),
+        backgroundColor: colorsPalette['input'],
+        selectedIndex: widget.indexView,
+        indicatorColor: Colors.transparent,
+        onDestinationSelected: (int index) {
+          setState(() => widget.indexView = index);
+          pageController.animateToPage(index,
+              duration: Duration(milliseconds: 400),
+              curve: Curves.easeInOut);
+        },
+        destinations: [
+          NavigationDestination(icon: Icon( widget.indexView==0?Icons.cloud:Icons.cloud_outlined, size: 34, color: widget.indexView==0?colorsPalette['title']:colorsPalette['content']), label: ''),
+          NavigationDestination(icon: Icon(Icons.checklist, size: 34, color: widget.indexView==1?colorsPalette['title']:colorsPalette['content']), label: ''),
+          NavigationDestination(icon: Icon( widget.indexView==2?Icons.map:Icons.map_outlined, size: 34, color: widget.indexView==2?colorsPalette['title']:colorsPalette['content']), label: '')
+        ],
       ),
+      body: PageView(
+          controller: pageController,
+          onPageChanged: (int index) {
+            setState(() =>  widget.indexView = index);
+          },
+          children: [WeatherView(), CheclistView(), Mainchartview()])
     );
   }
 }

@@ -23,38 +23,36 @@ class _CheclistViewState extends State<CheclistView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: CustomAppBar(
-          input: InputText(
-            hintText: 'AIRCRAFT',
-            onSubmit: (value) {
-              context.read<ChecklistBloc>().add(
-                filteredChecklist(query: value),
-              );
-            },
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        input: InputText(
+          hintText: 'AIRCRAFT',
+          onSubmit: (value) {
+            context.read<ChecklistBloc>().add(
+              filteredChecklist(query: value),
+            );
+          },
         ),
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: colorsPalette['light blue'],
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-          child: BlocBuilder<ChecklistBloc, ChecklistState>(
-            builder: (context, state) {
-              return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: state.checklists.length,
-                itemBuilder: (context, index) {
-                  return CardAircraft(
-                    pdf_file: state.checklists[index]['pdf file'],
-                    title: state.checklists[index]['name aircraft'],
-                  );
-                },
-              );
-            },
-          ),
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: colorsPalette['light blue'],
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+        child: BlocBuilder<ChecklistBloc, ChecklistState>(
+          builder: (context, state) {
+            return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: state.filtered_checklists.length,
+              itemBuilder: (context, index) {
+                return CardAircraft(
+                  pdf_file: state.filtered_checklists[index]['url'],
+                  title: state.filtered_checklists[index]['name'],
+                );
+              },
+            );
+          },
         ),
       ),
     );

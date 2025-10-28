@@ -1,42 +1,28 @@
-class CheckListRepository{
-  List<Map<String, dynamic>> List_aircrafts=[
-    {
-      'name aircraft':'Cessna 172',
-      'pdf file':'C172.pdf'
-    },
-    {
-      'name aircraft':'Boeing 737-600',
-      'pdf file':'B737.pdf'
-    },
-    {
-      'name aircraft':'Boeing 737-700',
-      'pdf file':'B737.pdf'
-    },
-    {
-      'name aircraft':'Boeing 737-800',
-      'pdf file':'B737.pdf'
-    },
-    {
-      'name aircraft':'Boeing 737-900',
-      'pdf file':'B737.pdf'
-    },
-    {
-      'name aircraft':'Boeing 747-400',
-      'pdf file':'B747.pdf'
-    },
-    {
-      'name aircraft':'Boeing 777-600',
-      'pdf file':'B777.pdf'
-    },
-  ];
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-  Future<List> filter_aircrafts(String query)async{
-    List<Map<String, dynamic>> aircrafts=[];
-    for(int i=0;i<List_aircrafts.length;i++){
-      if(List_aircrafts[i]['name aircraft'].toLowerCase().contains(query.toLowerCase())){
-        aircrafts.add(List_aircrafts[i]);
-        }
+class CheckListRepository {
+  Future<List<Map<String, dynamic>>> get_charts() async {
+    try{
+      final result = await Supabase.instance.client
+          .from('checklist')
+          .select()
+          .order('name', ascending: true);
+      return result;
+    }catch(e){
+      print(e);
+      return [];
     }
-    return aircrafts;
+  }
+
+  Future<List<Map<String, dynamic>>> filter_checklist(String query, List<Map<String, dynamic>> checklists) async {
+    List<Map<String, dynamic>> filtered_checklists = [];
+    for (int i = 0; i < checklists.length; i++) {
+      if (checklists[i]['name'].toLowerCase().contains(
+        query.toLowerCase(),
+      )) {
+        filtered_checklists.add(checklists[i]);
+      }
+    }
+    return filtered_checklists;
   }
 }

@@ -18,48 +18,57 @@ class Pdfchartview extends StatefulWidget {
 }
 
 class StatePdfchartview extends State<Pdfchartview> {
-  String? localPath;
+  String? path_pdf;
   bool loading = true;
   bool isAdLoaded=false;
   RewardedAd? rewardedAd;
+  bool initialAdShown = false;
 
   void loadRewardedAd() {
     RewardedAd.load(
-        adUnitId: 'ca-app-pub-6288821932043902/6759619816',
-        request: const AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(
-            onAdLoaded: (ad) async{
-              ad.fullScreenContentCallback=FullScreenContentCallback(
-                  onAdDismissedFullScreenContent: (ad){
-                    ad.dispose();
-                    rewardedAd=null;
-                    isAdLoaded=false;
-                    loadRewardedAd();
-                  },
-                  onAdFailedToShowFullScreenContent: (ad, e){
-                    ad.dispose();
-                    loadRewardedAd();
-                  }
-              );
-              setState(() {
-                rewardedAd=ad;
-                isAdLoaded=true;
-              });
-              final show= math.Random().nextBool();
-              print(show);
-              if(isAdLoaded && show){
-                rewardedAd?.show(onUserEarnedReward: (_, reward){
-                  print(reward.amount);
-                });
-              }else{
-                loadRewardedAd();
-              }
+      adUnitId: 'ca-app-pub-6288821932043902/6759619816',
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+              rewardedAd = null;
+              isAdLoaded = false;
+              loadRewardedAd();
             },
-            onAdFailedToLoad: (e){
-              print('Failed to load a rewarded ad: $e');
-              isAdLoaded=false;
-            })
+            onAdFailedToShowFullScreenContent: (ad, e) {
+              ad.dispose();
+              loadRewardedAd();
+            },
+          );
+
+          setState(() {
+            rewardedAd = ad;
+            isAdLoaded = true;
+          });
+          if (!loading && !initialAdShown) {
+            showRewardedAd();
+          }
+        },
+        onAdFailedToLoad: (e) {
+          print('Failed to load a rewarded ad: $e');
+          isAdLoaded = false;
+        },
+      ),
     );
+  }
+
+  void showRewardedAd() {
+    if (isAdLoaded && rewardedAd != null) {
+      rewardedAd?.show(onUserEarnedReward: (_, reward) {
+        print('Usuario ganó recompensa: ${reward.amount}');
+      });
+      isAdLoaded = false;
+      initialAdShown = true;
+    } else {
+      print("Anuncio no está listo todavía");
+    }
   }
 
   Future<void> loadPDF() async {
@@ -74,11 +83,14 @@ class StatePdfchartview extends State<Pdfchartview> {
         final file = File('${tempDir.path}/chart.pdf');
         await file.writeAsBytes(response.bodyBytes, flush: true);
         setState(() {
-          localPath = file.path;
+          path_pdf = file.path;
           loading = false;
         });
       }else {
         throw Exception('Error al descargar PDF: ${response.statusCode}');
+      }
+      if (isAdLoaded && !initialAdShown) {
+        showRewardedAd();
       }
     }catch(e){
       print(e);
@@ -88,7 +100,7 @@ class StatePdfchartview extends State<Pdfchartview> {
   @override
   void initState() {
     super.initState();
-    loadRewardedAd();
+    if(math.Random().nextBool()) loadRewardedAd();
     loadPDF();
   }
 
@@ -112,7 +124,7 @@ class StatePdfchartview extends State<Pdfchartview> {
             backgroundColor: Colors.transparent,
             color: colorsPalette['arrow blue'],
           ))
-              : PDFView(filePath: localPath,
+              : PDFView(filePath: path_pdf,
             swipeHorizontal: true,
           ),
         ),
