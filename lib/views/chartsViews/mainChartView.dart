@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flyinsky/views/chartsViews/validationView.dart';
-import 'package:flyinsky/views/chartsViews/chartView.dart';
+import 'package:flyinsky/views/chartsViews/chartsView.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flyinsky/blocs/token/token_event.dart';
 import 'package:flyinsky/blocs/token/token_bloc.dart';

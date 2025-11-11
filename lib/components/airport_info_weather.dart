@@ -28,43 +28,50 @@ class AirportInfo extends StatelessWidget {
             color: colorsPalette['arrow blue'],
           ),
           SizedBox(width: 10),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 13),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  Name,
-                  style: GoogleFonts.nunito(
-                    color: colorsPalette['title'],
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Expanded(child: Container()),
-                Row(
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 13),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(ICAO,
-                        style: GoogleFonts.nunito(
-                          color: colorsPalette['content'],
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        )
+                    Text(
+                      Name,
+                      style: GoogleFonts.nunito(
+                        color: colorsPalette['title'],
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1
                     ),
-                    SizedBox(width: 20),
-                    Text('$altitude FT',
-                        style: GoogleFonts.nunito(
-                          color: colorsPalette['content'],
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        )
+                    Expanded(child: Container()),
+                    Row(
+                      children: [
+                        Text(ICAO,
+                            style: GoogleFonts.nunito(
+                              color: colorsPalette['content'],
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            )
+                        ),
+                        SizedBox(width: 20),
+                        Text('$altitude FT',
+                            style: GoogleFonts.nunito(
+                              color: colorsPalette['content'],
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            )
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
-          Expanded(child: Container()),
+          SizedBox(width: 7),
           Icon(Icons.location_on, color: colorsPalette['title'], size: 34),
           SizedBox(width: 7)
         ],

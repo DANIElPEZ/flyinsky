@@ -3,9 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flyinsky/theme/color/colors.dart';
 
 class InputText extends StatelessWidget {
-  InputText({required this.onSubmit, this.hintText});
+  InputText({
+    required this.onSubmit,
+    this.hintText,
+    this.onChanged,
+    this.icon = Icons.search,
+  });
+
   final void Function(String) onSubmit;
+  final void Function(String)? onChanged;
   final String? hintText;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -14,33 +22,33 @@ class InputText extends StatelessWidget {
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: colorsPalette['title'],
           selectionColor: colorsPalette['title']?.withAlpha(150),
-          selectionHandleColor: colorsPalette['title']
-        )
+          selectionHandleColor: colorsPalette['title'],
+        ),
       ),
       child: TextField(
         cursorColor: colorsPalette['title'],
         style: GoogleFonts.nunito(
           color: colorsPalette['title'],
           fontSize: 18,
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
           hintText: hintText ?? 'ICAO',
           filled: true,
-          prefixIcon: Icon(Icons.search,
-          color: colorsPalette['title']),
+          prefixIcon: Icon(icon, color: colorsPalette['title']),
           fillColor: colorsPalette['input'],
           hintStyle: GoogleFonts.nunito(
             color: colorsPalette['title'],
             fontSize: 15,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none
-          )
+            borderSide: BorderSide.none,
+          ),
         ),
-        onSubmitted: onSubmit
+        onSubmitted: onSubmit,
+        onChanged: onChanged,
       ),
     );
   }

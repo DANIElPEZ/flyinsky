@@ -6,7 +6,6 @@ import 'package:flyinsky/components/appBar.dart';
 import 'package:flyinsky/blocs/token/token_bloc.dart';
 import 'package:flyinsky/blocs/token/token_event.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flyinsky/views/mainView.dart';
 
 class ValidationView extends StatelessWidget {
   @override

@@ -36,7 +36,6 @@ class CardClouds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //width: MediaQuery.of(context).size.width,
       clipBehavior: Clip.antiAlias,
       padding: EdgeInsets.symmetric(vertical:17, horizontal: 13),
       decoration: BoxDecoration(
@@ -55,10 +54,13 @@ class CardClouds extends StatelessWidget {
             ),
           ),
           SizedBox(height: 7),
-          Row(
-            children: List.generate(clouds.length, (index) {
-              return cloud(context, clouds[index]);
-            })
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(clouds.length, (index) {
+                return cloud(context, clouds[index]);
+              })
+            ),
           )
         ],
       ),

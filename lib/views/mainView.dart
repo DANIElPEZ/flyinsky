@@ -3,6 +3,7 @@ import 'package:flyinsky/theme/color/colors.dart';
 import 'package:flyinsky/views/weatherViews/weatherView.dart';
 import 'package:flyinsky/views/checklistViews/checklistView.dart';
 import 'package:flyinsky/views/chartsViews/mainChartView.dart';
+import 'package:flyinsky/views/profileViews/mainProfileView.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 
@@ -90,7 +91,8 @@ class _HomeViewState extends State<HomeView> {
         destinations: [
           NavigationDestination(icon: Icon( widget.indexView==0?Icons.cloud:Icons.cloud_outlined, size: 34, color: widget.indexView==0?colorsPalette['title']:colorsPalette['content']), label: ''),
           NavigationDestination(icon: Icon(Icons.checklist, size: 34, color: widget.indexView==1?colorsPalette['title']:colorsPalette['content']), label: ''),
-          NavigationDestination(icon: Icon( widget.indexView==2?Icons.map:Icons.map_outlined, size: 34, color: widget.indexView==2?colorsPalette['title']:colorsPalette['content']), label: '')
+          NavigationDestination(icon: Icon( widget.indexView==2?Icons.map:Icons.map_outlined, size: 34, color: widget.indexView==2?colorsPalette['title']:colorsPalette['content']), label: ''),
+          NavigationDestination(icon: Icon(widget.indexView==3?Icons.person:Icons.person_outlined, size: 34, color: widget.indexView==3?colorsPalette['title']:colorsPalette['content']), label: '')
         ],
       ),
       body: PageView(
@@ -98,7 +100,7 @@ class _HomeViewState extends State<HomeView> {
           onPageChanged: (int index) {
             setState(() =>  widget.indexView = index);
           },
-          children: [WeatherView(), CheclistView(), Mainchartview()])
+          children: [WeatherView(), CheclistView(), Mainchartview(), MainProfileView()])
     );
   }
 }

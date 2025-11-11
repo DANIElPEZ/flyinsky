@@ -6,11 +6,15 @@ import 'package:flyinsky/repository/weather_repository.dart';
 import 'package:flyinsky/repository/charts_repository.dart';
 import 'package:flyinsky/repository/token_repository.dart';
 import 'package:flyinsky/repository/checklist_repository.dart';
+import 'package:flyinsky/repository/auth_repository.dart';
+import 'package:flyinsky/repository/purchase_repository.dart';
 import 'package:flyinsky/blocs/weather/weather_bloc.dart';
 import 'package:flyinsky/blocs/token/token_bloc.dart';
 import 'package:flyinsky/blocs/charts/chart_bloc.dart';
 import 'package:flyinsky/views/splashView.dart';
 import 'package:flyinsky/blocs/checklist/checklist_bloc.dart';
+import 'package:flyinsky/blocs/auth/auth_bloc.dart';
+import 'package:flyinsky/blocs/purchase/purchase_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -36,17 +40,23 @@ class Main extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<WeatherRepository>(
-          create: (context) => WeatherRepository(),
+          create: (context) => WeatherRepository()
         ),
         RepositoryProvider<ChartsRepository>(
-          create: (context) => ChartsRepository(),
+          create: (context) => ChartsRepository()
         ),
         RepositoryProvider<TokenRepository>(
-          create: (context) => TokenRepository(),
+          create: (context) => TokenRepository()
         ),
         RepositoryProvider<CheckListRepository>(
-          create: (context) => CheckListRepository(),
+          create: (context) => CheckListRepository()
         ),
+        RepositoryProvider<AuthRepository>(
+          create: (context) => AuthRepository()
+        ),
+        RepositoryProvider<PurchaseRepository>(
+          create: (context) => PurchaseRepository()
+        )
       ],
       child: MultiBlocProvider(
         providers: [
@@ -79,6 +89,12 @@ class Main extends StatelessWidget {
           ),
           BlocProvider<ChecklistBloc>(create: (context)=>ChecklistBloc(
             checklistrepository: RepositoryProvider.of<CheckListRepository>(context)
+          )),
+          BlocProvider<AuthBloc>(create: (context)=>AuthBloc(
+              authrepository: RepositoryProvider.of<AuthRepository>(context)
+          )),
+          BlocProvider<PurchaseBloc>(create: (context)=>PurchaseBloc(
+              purchaseRepository: RepositoryProvider.of<PurchaseRepository>(context)
           ))
         ],
         child: Builder(
@@ -86,7 +102,9 @@ class Main extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               builder: (context, child){
-                return SafeArea(child: child!);
+                return MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+                    child: SafeArea(child: child!));
               },
               home: splashPage()
             );

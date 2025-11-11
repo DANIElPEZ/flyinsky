@@ -73,25 +73,17 @@ class CardMetar extends StatelessWidget {
                   color: colorsPalette['content'],
                 ),
               ),
-              SizedBox(height: 15),
+              SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 90,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: colorsPalette['card blue'],
                 ),
-                child: Text(
-                  metar['raw'],
-                  style: GoogleFonts.nunito(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: colorsPalette['title'],
-                  ),
-                ),
-              ),
-            ],
+                child: buildBalancedRawText(metar['raw'])
+              )
+            ]
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -125,6 +117,38 @@ class CardMetar extends StatelessWidget {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildBalancedRawText(String rawText) {
+    final middle = rawText.length ~/ 2;
+    int splitPoint = rawText.indexOf(' ', middle);
+
+    if (splitPoint == -1) {
+      splitPoint = middle;
+    }
+
+    final line1 = rawText.substring(0, splitPoint).trim();
+    final line2 = rawText.substring(splitPoint).trim();
+
+    final textStyle = GoogleFonts.nunito(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: colorsPalette['title'],
+    );
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(line1, style: textStyle, maxLines: 1),
+          if (line2.isNotEmpty)
+            Text(line2, style: textStyle, maxLines: 1)
         ],
       ),
     );
