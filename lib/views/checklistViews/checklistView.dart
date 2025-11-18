@@ -42,6 +42,12 @@ class _CheclistViewState extends State<CheclistView> {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         child: BlocBuilder<ChecklistBloc, ChecklistState>(
           builder: (context, state) {
+            if(state.loading){
+              return Center(child: CircularProgressIndicator(
+                backgroundColor: Colors.transparent,
+                color: colorsPalette['arrow blue'],
+              ));
+            }
             return ListView.builder(
               physics: BouncingScrollPhysics(),
               itemCount: state.filtered_checklists.length,

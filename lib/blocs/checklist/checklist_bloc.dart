@@ -10,12 +10,13 @@ class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
     : super(ChecklistState.initial()) {
     on<loadChecklists>((event, emit) async {
       try {
+        emit(state.copyWith(loading: true));
         final checklists = await checklistrepository.get_charts();
-        emit(state.copyWith(checklists: checklists));
-        emit(state.copyWith(filtered_checklists: checklists));
+        emit(state.copyWith(checklists: checklists, filtered_checklists: checklists, loading: false));
       } catch (e) {
         print(e);
       }
+      emit(state.copyWith(loading: false));
     });
     on<filteredChecklist>((event, emit) async {
       emit(state.copyWith( filter_by_name: event.query));

@@ -29,12 +29,17 @@ class _chartsViewState extends State<chartsView> {
           color: colorsPalette['light blue'],
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
           child: BlocBuilder<chartsBloc, chartsState>(builder: (context, state){
-            if(state.charts.isNotEmpty){
+            if(state.loading){
+              return Center(child: CircularProgressIndicator(
+                backgroundColor: Colors.transparent,
+                color: colorsPalette['arrow blue'],
+              ));
+            }else if(state.charts.isNotEmpty){
               return SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: ExpandedPanel(groupedCharts: state.charts)
               );
-            }if(state.charts.isEmpty && state.icao.isNotEmpty){
+            }else if(state.charts.isEmpty && state.icao.isNotEmpty){
               return Center(child: Text('AIRPORT IS NOT AVAIABLE', style: GoogleFonts.nunito(
                   color: colorsPalette['title'],
                   fontSize: 20,

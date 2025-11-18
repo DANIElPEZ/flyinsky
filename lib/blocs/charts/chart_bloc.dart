@@ -30,11 +30,13 @@ class chartsBloc extends Bloc<chartsEvent, chartsState>{
     });
     on<loadPdfChart>((event, emit)async{
       try{
+        emit(state.copyWith(loading: true));
         final url=await chartsrepository.getChart(state.token, event.idChart);//send from id from clicking ui
         emit(state.copyWith(urlChart: url));
       }catch(e){
         print(e);
       }
+      emit(state.copyWith(loading: false));
     });
     on<updateToken>((event, emit){
       emit(state.copyWith(token: event.token));

@@ -10,7 +10,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpRequested>((event, emit) async{
       try {
         await authrepository.signUp(event.username, event.password);
-        emit(state.copyWith(isAuthenticated: true));
+        emit(state.copyWith(isAuthenticated: true, username: event.username));
       } catch (e) {
         print(e);
       }
