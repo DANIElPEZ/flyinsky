@@ -88,6 +88,15 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+                  Text(
+                    'Products',
+                    style: GoogleFonts.nunito(
+                      color: colorsPalette['title'],
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

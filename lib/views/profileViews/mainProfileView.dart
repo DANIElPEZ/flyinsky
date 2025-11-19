@@ -26,8 +26,7 @@ class _MainProfileViewState extends State<MainProfileView> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       if(state.isAuthenticated){
-        final username = context.watch<AuthBloc>().state.username;
-        return ProfileView(username: username);
+        return ProfileView(username: state.username);
       }else{
         return LoginView();
       }

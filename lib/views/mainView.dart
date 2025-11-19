@@ -8,15 +8,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({required this.indexView});
-  int indexView;
-
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
   late PageController pageController;
+  int indexView = 0;
 
   Future<void> checkForUpdate(BuildContext context) async {
     final newVersion = NewVersionPlus(androidId: 'com.dnv.flyinsky');
@@ -26,8 +24,7 @@ class _HomeViewState extends State<HomeView> {
         barrierDismissible: false,
         context: context,
         builder:
-            (context) =>
-            AlertDialog(
+            (context) => AlertDialog(
               backgroundColor: colorsPalette['card blue'],
               title: Text(
                 'New version available',
@@ -39,9 +36,11 @@ class _HomeViewState extends State<HomeView> {
               ),
               actions: [
                 ElevatedButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     Navigator.pop(context);
-                    await newVersion.launchAppStore('https://play.google.com/store/apps/details?id=com.dnv.flyinsky');
+                    await newVersion.launchAppStore(
+                      'https://play.google.com/store/apps/details?id=com.dnv.flyinsky',
+                    );
                   },
                   child: Text(
                     'Update',
@@ -67,7 +66,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: widget.indexView);
+    pageController = PageController(initialPage: indexView);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkForUpdate(context);
     });
@@ -80,27 +79,75 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar: NavigationBar(
         animationDuration: Duration(milliseconds: 400),
         backgroundColor: colorsPalette['input'],
-        selectedIndex: widget.indexView,
+        selectedIndex: indexView,
         indicatorColor: Colors.transparent,
         onDestinationSelected: (int index) {
-          setState(() => widget.indexView = index);
-          pageController.animateToPage(index,
-              duration: Duration(milliseconds: 400),
-              curve: Curves.easeInOut);
+          setState(() => indexView = index);
+          pageController.animateToPage(
+            index,
+            duration: Duration(milliseconds: 400),
+            curve: Curves.easeInOut,
+          );
         },
         destinations: [
-          NavigationDestination(icon: Icon( widget.indexView==0?Icons.cloud:Icons.cloud_outlined, size: 34, color: widget.indexView==0?colorsPalette['title']:colorsPalette['content']), label: ''),
-          NavigationDestination(icon: Icon(Icons.checklist, size: 34, color: widget.indexView==1?colorsPalette['title']:colorsPalette['content']), label: ''),
-          NavigationDestination(icon: Icon( widget.indexView==2?Icons.map:Icons.map_outlined, size: 34, color: widget.indexView==2?colorsPalette['title']:colorsPalette['content']), label: ''),
-          NavigationDestination(icon: Icon(widget.indexView==3?Icons.person:Icons.person_outlined, size: 34, color: widget.indexView==3?colorsPalette['title']:colorsPalette['content']), label: '')
+          NavigationDestination(
+            icon: Icon(
+              indexView == 0 ? Icons.cloud : Icons.cloud_outlined,
+              size: 34,
+              color:
+                  indexView == 0
+                      ? colorsPalette['title']
+                      : colorsPalette['content'],
+            ),
+            label: '',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.checklist,
+              size: 34,
+              color:
+                  indexView == 1
+                      ? colorsPalette['title']
+                      : colorsPalette['content'],
+            ),
+            label: '',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              indexView == 2 ? Icons.map : Icons.map_outlined,
+              size: 34,
+              color:
+                  indexView == 2
+                      ? colorsPalette['title']
+                      : colorsPalette['content'],
+            ),
+            label: '',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              indexView == 3 ? Icons.person : Icons.person_outlined,
+              size: 34,
+              color:
+                  indexView == 3
+                      ? colorsPalette['title']
+                      : colorsPalette['content'],
+            ),
+            label: '',
+          ),
         ],
       ),
       body: PageView(
-          controller: pageController,
-          onPageChanged: (int index) {
-            setState(() =>  widget.indexView = index);
-          },
-          children: [WeatherView(), CheclistView(), Mainchartview(), MainProfileView()])
+        controller: pageController,
+        onPageChanged: (int index) {
+          setState(() => indexView = index);
+        },
+        children: [
+          WeatherView(),
+          CheclistView(),
+          Mainchartview(),
+          MainProfileView(),
+        ],
+      ),
     );
   }
 }
