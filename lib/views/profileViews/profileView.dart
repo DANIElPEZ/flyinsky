@@ -8,6 +8,7 @@ import 'package:flyinsky/blocs/auth/auth_event.dart';
 import 'package:flyinsky/blocs/purchase/purchase_state.dart';
 import 'package:flyinsky/blocs/purchase/purchase_bloc.dart';
 import 'package:flyinsky/blocs/purchase/purchase_event.dart';
+import 'package:flyinsky/views/profileViews/policies.dart';
 
 class ProfileView extends StatelessWidget {
   ProfileView({required this.username});
@@ -161,6 +162,30 @@ class ProfileView extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
+                  SizedBox(
+                      height: 47,
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Policies()));
+                          },
+                          child: Text(
+                            'Policies',
+                            style: GoogleFonts.nunito(
+                              color: colorsPalette['title'],
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              backgroundColor: colorsPalette['dark blue']
+                          )
+                      )
+                  ),
+                  SizedBox(height: 12),
                   SizedBox(
                     height: 47,
                     width: MediaQuery.of(context).size.width,

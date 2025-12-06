@@ -6,6 +6,7 @@ import 'package:flyinsky/components/appBar.dart';
 import 'package:flyinsky/components/custom_input_text.dart';
 import 'package:flyinsky/blocs/auth/auth_bloc.dart';
 import 'package:flyinsky/blocs/auth/auth_event.dart';
+import 'package:flyinsky/views/profileViews/policies.dart';
 
 class LoginView extends StatelessWidget {
   String? username;
@@ -92,6 +93,30 @@ class LoginView extends StatelessWidget {
                   backgroundColor: colorsPalette['dark blue']
                 )
               )
+            ),
+            SizedBox(height: 12),
+            SizedBox(
+                height: 47,
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Policies()));
+                    },
+                    child: Text(
+                      'Policies',
+                      style: GoogleFonts.nunito(
+                        color: colorsPalette['title'],
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        backgroundColor: colorsPalette['dark blue']
+                    )
+                )
             )
           ]
         )

@@ -57,7 +57,10 @@ class StateViewChecklist extends State<ViewChecklist> {
         color: colorsPalette['light blue'],
         child:
             loading
-                ? Center(child: CircularProgressIndicator())
+                ? Center(child: CircularProgressIndicator(
+                backgroundColor: Colors.transparent,
+                color: colorsPalette['arrow blue']
+            ))
                 : PDFView(filePath: path_pdf,
             swipeHorizontal: true
           ),
