@@ -7,6 +7,4 @@ class saveToken extends TokenEvent{
   saveToken(this.code);
 }
 
-class getTokenCode extends TokenEvent{}
-
 class checkToken extends TokenEvent{}

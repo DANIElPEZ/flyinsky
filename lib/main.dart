@@ -76,17 +76,9 @@ class Main extends StatelessWidget {
                   ),
                 ),
           ),
-          BlocProvider<chartsBloc>(
-            create: (context) {
-              final tokenBloc = BlocProvider.of<TokenBloc>(context);
-              final chartsrepository = RepositoryProvider.of<ChartsRepository>(context);
-
-              return chartsBloc(
-                tokenBloc: tokenBloc,
-                chartsrepository: chartsrepository
-              );
-            }
-          ),
+          BlocProvider<chartsBloc>(create: (context) => chartsBloc(
+                chartsrepository: RepositoryProvider.of<ChartsRepository>(context)
+              )),
           BlocProvider<ChecklistBloc>(create: (context)=>ChecklistBloc(
             checklistrepository: RepositoryProvider.of<CheckListRepository>(context)
           )),

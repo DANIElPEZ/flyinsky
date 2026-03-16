@@ -112,7 +112,7 @@ class CardMetar extends StatelessWidget {
                     content: '${(metar['visibility'])}',
                   ),
                   SizedBox(height: 8),
-                  CardClouds(clouds: metar['clouds']),
+                  SizedBox(width: double.infinity,child: CardClouds(clouds: metar['clouds']))
                 ],
               ),
             ),

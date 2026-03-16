@@ -16,6 +16,12 @@ class chartsView extends StatefulWidget{
 
 class _chartsViewState extends State<chartsView> {
   @override
+  void initState() {
+    super.initState();
+    context.read<chartsBloc>().add(loadToken());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,

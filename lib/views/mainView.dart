@@ -4,6 +4,7 @@ import 'package:flyinsky/views/weatherViews/weatherView.dart';
 import 'package:flyinsky/views/checklistViews/checklistView.dart';
 import 'package:flyinsky/views/chartsViews/mainChartView.dart';
 import 'package:flyinsky/views/profileViews/mainProfileView.dart';
+import 'package:flyinsky/views/globalViews/globlalMapView.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 
@@ -114,10 +115,21 @@ class _HomeViewState extends State<HomeView> {
           ),
           NavigationDestination(
             icon: Icon(
-              indexView == 2 ? Icons.map : Icons.map_outlined,
+              indexView == 2 ? Icons.local_airport : Icons.local_airport_outlined,
               size: 34,
               color:
-                  indexView == 2
+              indexView == 2
+                  ? colorsPalette['title']
+                  : colorsPalette['content'],
+            ),
+            label: '',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              indexView == 3 ? Icons.map : Icons.map_outlined,
+              size: 34,
+              color:
+                  indexView == 3
                       ? colorsPalette['title']
                       : colorsPalette['content'],
             ),
@@ -125,10 +137,10 @@ class _HomeViewState extends State<HomeView> {
           ),
           NavigationDestination(
             icon: Icon(
-              indexView == 3 ? Icons.person : Icons.person_outlined,
+              indexView == 4 ? Icons.person : Icons.person_outlined,
               size: 34,
               color:
-                  indexView == 3
+                  indexView == 4
                       ? colorsPalette['title']
                       : colorsPalette['content'],
             ),
@@ -144,6 +156,7 @@ class _HomeViewState extends State<HomeView> {
         children: [
           WeatherView(),
           CheclistView(),
+          mapView(),
           Mainchartview(),
           MainProfileView(),
         ],

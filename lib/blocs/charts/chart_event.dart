@@ -12,7 +12,4 @@ class loadPdfChart extends chartsEvent{
   loadPdfChart(this.idChart);
 }
 
-class updateToken extends chartsEvent{
-  updateToken(this.token);
-  final String token;
-}
+class loadToken extends chartsEvent{}

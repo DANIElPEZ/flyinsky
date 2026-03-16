@@ -8,15 +8,8 @@ import 'package:bloc/bloc.dart';
 class chartsBloc extends Bloc<chartsEvent, chartsState>{
   final ChartsRepository chartsrepository;
   late final StreamSubscription tokenSubscription;
-  final TokenBloc tokenBloc;
 
-  chartsBloc({required this.tokenBloc, required this.chartsrepository}):super(chartsState.initial()){
-    tokenSubscription = tokenBloc.stream.listen((tokenState) {
-      if (tokenState.tokenAccess.isNotEmpty) {
-        add(updateToken(tokenState.tokenAccess));
-      }
-    });
-
+  chartsBloc({required this.chartsrepository}):super(chartsState.initial()){
     on<setIcao>((event, emit){
       emit(state.copyWith(icao: event.icao, loading: true));
     });
@@ -31,14 +24,19 @@ class chartsBloc extends Bloc<chartsEvent, chartsState>{
     });
     on<loadPdfChart>((event, emit)async{
       try{
-        final url=await chartsrepository.getChart(state.token, event.idChart);//send from id from clicking ui
+        final url=await chartsrepository.getChart(state.token, event.idChart);
         emit(state.copyWith(urlChart: url));
       }catch(e){
         print(e);
       }
     });
-    on<updateToken>((event, emit){
-      emit(state.copyWith(token: event.token));
+    on<loadToken>((event, emit)async{
+      try {
+        final token = await chartsrepository.getToken();
+        emit(state.copyWith(token: token));
+      }catch(e){
+        print(e);
+      }
     });
   }
 

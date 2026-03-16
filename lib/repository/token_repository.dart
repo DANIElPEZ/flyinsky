@@ -1,24 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flyinsky/sqlite/sql_helper.dart';
 
 class TokenRepository {
-  Future<void> authVatsim() async {
+  String authVatsim() {
     final String authUrl = dotenv.env['AUTH'] ?? '';
     final String clientId = dotenv.env['CLIENT_ID'] ?? '';
     final String scopes = dotenv.env['SCOPES'] ?? '';
     final String redirectUri = dotenv.env['REDIRECT_URL'] ?? '';
 
-    final url =
-        "$authUrl?client_id=$clientId&redirect_uri=$redirectUri&response_type=code&scope=${Uri.encodeComponent(scopes)}";
-
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-    } else {
-      throw 'No se pudo abrir el navegador.';
-    }
+    return "$authUrl?client_id=$clientId&redirect_uri=$redirectUri&response_type=code&scope=${Uri.encodeComponent(scopes)}";
   }
 
   Future<Map<String,dynamic>> getAccessToken(String code) async {

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flyinsky/theme/color/colors.dart';
-import 'package:flyinsky/components/custom_input_text.dart';
 import 'package:flyinsky/components/appBar.dart';
+import 'package:flyinsky/views/chartsViews/authVatsimView.dart';
 import 'package:flyinsky/blocs/token/token_bloc.dart';
 import 'package:flyinsky/blocs/token/token_event.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flyinsky/repository/token_repository.dart';
 
 class ValidationView extends StatelessWidget {
   @override
@@ -18,65 +20,46 @@ class ValidationView extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         color: colorsPalette['light blue'],
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InputText(
-              hintText: 'Paste code from web',
-              onSubmit: (value) async{
-                context.read<TokenBloc>().add(saveToken(value.trim()));
-              },
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              height: 47,
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                onPressed: () {
-                  context.read<TokenBloc>().add(getTokenCode());
-                },
-                child: Text(
-                  'Login with Vatsim',
-                  style: GoogleFonts.nunito(
-                    color: colorsPalette['title'],
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+        child: Center(
+          child: SizedBox(
+            height: 47,
+            width: MediaQuery.of(context).size.width,
+            child: ElevatedButton(
+              onPressed: () async {
+                final String authUrl = TokenRepository().authVatsim();
+                final String redirectUrl = dotenv.env['REDIRECT_URL'] ?? '';
+                final String? code = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => VatsimWebView(
+                          authUrl: authUrl,
+                          redirectUrl: redirectUrl,
+                        ),
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  backgroundColor: colorsPalette['dark blue'],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              height: 47,
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                onPressed: () {
+                );
+                if (code != null) {
+                  context.read<TokenBloc>().add(saveToken(code));
                   context.read<TokenBloc>().add(getToken());
                   context.read<TokenBloc>().add(checkToken());
-                },
-                child: Text(
-                  'Submit',
-                  style: GoogleFonts.nunito(
-                    color: colorsPalette['title'],
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  backgroundColor: colorsPalette['dark blue'],
+                }
+              },
+              child: Text(
+                'Login with Vatsim',
+                style: GoogleFonts.nunito(
+                  color: colorsPalette['title'],
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                backgroundColor: colorsPalette['dark blue'],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

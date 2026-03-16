@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:flyinsky/sqlite/sql_helper.dart';
 
 class ChartsRepository{
   Future<Map<String, List<Map<String, String>>>> getGroupedCharts(accessToken, icao) async {
@@ -58,5 +59,10 @@ class ChartsRepository{
       print('Error: $e');
     }
     return '';
+  }
+
+  Future<String> getToken()async{
+    final token=await DatabaseHelper().getToken();
+    return token['token'];
   }
 }

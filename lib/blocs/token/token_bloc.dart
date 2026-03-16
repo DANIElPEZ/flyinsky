@@ -22,13 +22,6 @@ class TokenBloc extends Bloc<TokenEvent, TokenState>{
         print(e);
       }
     });
-    on<getTokenCode>((event, emit)async{
-      try {
-        await tokenRepository.authVatsim();
-      }catch(e){
-        print(e);
-      }
-    });
     on<checkToken>((event, emit)async{
       final isExpired=await tokenRepository.isTokenExpired();
       emit(state.copyWith(isExpired: isExpired));
