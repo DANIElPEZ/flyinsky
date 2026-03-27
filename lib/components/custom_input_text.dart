@@ -4,13 +4,13 @@ import 'package:flyinsky/theme/color/colors.dart';
 
 class InputText extends StatelessWidget {
   InputText({
-    required this.onSubmit,
+    this.onSubmit,
     this.hintText,
     this.onChanged,
     this.icon = Icons.search,
   });
 
-  final void Function(String) onSubmit;
+  final void Function(String)? onSubmit;
   final void Function(String)? onChanged;
   final String? hintText;
   final IconData? icon;
