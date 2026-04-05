@@ -42,7 +42,7 @@ class _CheclistViewState extends State<CheclistView> {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         child: BlocBuilder<ChecklistBloc, ChecklistState>(
           builder: (context, state) {
-            if(state.loading){
+            if(state.loading || state.filtered_checklists.isEmpty){
               return Center(child: CircularProgressIndicator(
                 backgroundColor: Colors.transparent,
                 color: colorsPalette['arrow blue'],

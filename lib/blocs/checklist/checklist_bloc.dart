@@ -21,7 +21,7 @@ class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
     on<filteredChecklist>((event, emit) async {
       emit(state.copyWith( filter_by_name: event.query));
       final filtered_checklists = await checklistrepository.filter_checklist(
-        state. filter_by_name,
+        state.filter_by_name,
         state.checklists
       );
       emit(state.copyWith(filtered_checklists: filtered_checklists));
