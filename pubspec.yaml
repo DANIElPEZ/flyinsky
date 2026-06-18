@@ -1,6 +1,6 @@
 name: flyinsky
 publish_to: 'none'
-version: 2.5.0
+version: 2.6.0
 environment:
   sdk: ^3.7.2
 dependencies:
@@ -21,7 +21,7 @@ dependencies:
   flutter_map: ^8.2.2
   geolocator: ^14.0.2
   latlong2: ^0.9.1
-
+  flutter_inappwebview: ^6.1.5
   flutter:
     sdk: flutter
 

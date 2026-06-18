@@ -115,7 +115,7 @@ class _HomeViewState extends State<HomeView> {
           ),
           NavigationDestination(
             icon: Icon(
-              indexView == 2 ? Icons.local_airport : Icons.local_airport_outlined,
+              indexView == 2 ? Icons.map : Icons.map_outlined,
               size: 34,
               color:
               indexView == 2
@@ -126,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
           ),
           NavigationDestination(
             icon: Icon(
-              indexView == 3 ? Icons.map : Icons.map_outlined,
+              indexView == 3 ? Icons.public : Icons.language,
               size: 34,
               color:
                   indexView == 3
@@ -156,8 +156,8 @@ class _HomeViewState extends State<HomeView> {
         children: [
           WeatherView(),
           CheclistView(),
-          mapView(),
           Mainchartview(),
+          mapView(),
           MainProfileView(),
         ],
       ),

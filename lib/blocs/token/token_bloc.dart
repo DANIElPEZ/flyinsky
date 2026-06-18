@@ -16,8 +16,7 @@ class TokenBloc extends Bloc<TokenEvent, TokenState>{
     });
     on<saveToken>((event, emit)async{
       try {
-        final result = await tokenRepository.getAccessToken(event.code);
-        await tokenRepository.saveToken(result);
+        await tokenRepository.saveToken(event.token);
       }catch(e){
         print(e);
       }
