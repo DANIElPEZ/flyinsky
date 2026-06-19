@@ -29,16 +29,9 @@ class ValidationView extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   final String authUrl = await TokenRepository().authVatsim();
-                  final tokenData = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) => VatsimWebView(
-                        webAuth: authUrl,
-                      ),
-                    ),
-                  );
+                  final tokenData = await VatsimAuthService().loginWithVatsim(context, authUrl);
                   if (tokenData != null) {
+                    print(tokenData);
                     context.read<TokenBloc>().add(saveToken(tokenData));
                     context.read<TokenBloc>().add(getToken());
                     context.read<TokenBloc>().add(checkToken());
