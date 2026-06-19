@@ -303,8 +303,11 @@ Future<List<RoutePoint>> getFlightPlan(String from, String to) async {
 
   if (planData['route']?['nodes'] != null) {
     for (var node in planData['route']['nodes']) {
+      final double lat = (node['lat'] as num).toDouble();
+      final double lon = (node['lon'] as num).toDouble();
+
       points.add(RoutePoint(
-        position: LatLng(node['lat'], node['lon']),
+        position: LatLng(lat, lon),
         ident: node['ident'] ?? '',
       ));
     }

@@ -104,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
           ),
           NavigationDestination(
             icon: Icon(
-              Icons.checklist,
+              indexView == 1 ? Icons.fact_check : Icons.fact_check_outlined,
               size: 34,
               color:
                   indexView == 1
